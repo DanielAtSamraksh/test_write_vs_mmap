@@ -1,0 +1,25 @@
+*.o
+*.d
+
+# Compiled Dynamic libraries
+*.so
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+.depend
+
+# Miscellaneous
+*.suo
+*.csproj.user
+*.exe
+*.pdb
+*~
+*\#
+*\#*
+*.mmap
+*.write
+
+
