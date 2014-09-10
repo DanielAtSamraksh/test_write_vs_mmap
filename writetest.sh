@@ -41,7 +41,6 @@ done
 # then something is wrong.
 if ! seq ${@:-1} &> /dev/null; then usage; exit 1; fi
 
-exit
 case $# in 
     0)
 	maxPageSize=10
@@ -85,16 +84,18 @@ done
 echo -e "page_size\tmmap\twrite" > ${filename}.page_sizes
 for page_size in $(seq ${minPageSize} ${stepSize} ${maxPageSize}); do
     output=${filename}.1.${page_size}
-    ./writetest ${output} 1 ${page_size} ${str} | tee -a ${filename}.page_size
+    ./writetest ${output} 1 ${page_size} ${str} | tee -a ${filename}.page_sizes
     diff ${output}.mmap ${output}.write
     rm ${output}.mmap ${output}.write
 done
 gnuplot -p <<EOF
-set terminal wxt
+# set terminal wxt
+set terminal png
+set output "${filename}.png"
 set xlabel "Bytes"
 set ylabel "Seconds"
 plot for[col=2:3] "${filename}.pages" using 1:col title columnheader(col) with lines, \
      for[col=2:3] "${filename}.page_sizes" using 1:col title columnheader(col) with lines
 EOF
-
+eog "${filename}.png"
 
