@@ -1,0 +1,1 @@
+plot for[col=2:4] "dat" using 1:col title columnheader(col) with lines
