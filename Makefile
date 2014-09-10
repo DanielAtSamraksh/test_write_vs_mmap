@@ -4,5 +4,4 @@ writetest: mkpath.h mkpath.cpp writeTest.cpp
 	g++ mkpath.cpp writeTest.cpp -o writetest
 
 clean: 
-	rm *.write
-	rm *.mmap
+	rm -f *.write *.mmap *.pages *.page_sizes *.png

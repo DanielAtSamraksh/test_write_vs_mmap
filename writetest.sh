@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 # write test
 function usage {
@@ -71,12 +71,17 @@ esac
 
 echo "Running simulation with minPageSize ${minPageSize}, stepSize ${stepSize}, maxPageSize ${maxPageSize}"
 
-echo "Putting tabular results in ${filename}.pages (varying number of pages of fixed size) and ${filename}.page_sizes (one page of varying sizes)."
+cat <<EOF 
+Putting tabular results in:
+  ${filename}.pages (varying number of pages of fixed size) and "
+  ${filename}.page_sizes (one page of varying sizes)."
+Putting output graph in ${filename}.png.
+EOF
 
 echo -e "page_size\tmmap_paging\twrite_paging" > ${filename}.pages
 for pages in $(seq ${minPageSize} ${stepSize} ${maxPageSize}); do
     output=${filename}.${pages}.1
-    ./writetest ${output} ${pages} 1 ${str} | tee -a ${filename}.pages 
+    ./writetest ${output} ${pages} 1 ${str} | tee -a ${filename}.pages > /dev/null
     # check to make sure that the writetest output files are the same, then remove them
     diff ${output}.mmap ${output}.write
     rm ${output}.mmap ${output}.write
@@ -84,7 +89,7 @@ done
 echo -e "page_size\tmmap\twrite" > ${filename}.page_sizes
 for page_size in $(seq ${minPageSize} ${stepSize} ${maxPageSize}); do
     output=${filename}.1.${page_size}
-    ./writetest ${output} 1 ${page_size} ${str} | tee -a ${filename}.page_sizes
+    ./writetest ${output} 1 ${page_size} ${str} | tee -a ${filename}.page_sizes > /dev/null
     diff ${output}.mmap ${output}.write
     rm ${output}.mmap ${output}.write
 done
