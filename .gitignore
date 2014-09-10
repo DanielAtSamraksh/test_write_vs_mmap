@@ -21,6 +21,8 @@
 *\#*
 *.mmap
 *.write
+*.pages
+*.page_sizes
 
 writetest
 
