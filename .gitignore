@@ -23,6 +23,7 @@
 *.write
 *.pages
 *.page_sizes
+*.png
 
 writetest
 
